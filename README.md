@@ -1,3 +1,11 @@
+# Integrantes do grupo
+Antônio Rabelo
+Diogo Augusto
+João Pedro Bomfim Vicor
+Sofia Melo
+
+
+
 # Sistema de Matrículas
 
 ## 1. Visão geral
