@@ -6,7 +6,6 @@ João Pedro Bomfim Vicor
 Sofia Melo
 
 
-
 # Sistema de Matrículas
 
 ## 1. Visão geral
