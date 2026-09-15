@@ -1,8 +1,8 @@
 # Integrantes do grupo
--Antônio Rabelo
--Diogo Augusto
--João Pedro Bomfim Vicor
--Sofia Melo
+*Antônio Rabelo
+*Diogo Augusto
+*João Pedro Bomfim Vicor
+*Sofia Melo
 
 
 
