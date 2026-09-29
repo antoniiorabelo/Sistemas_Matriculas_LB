@@ -1,2 +1,3 @@
 # tipo;id;nome;login;senha;ativo;registroOuMatricula;codigoCurso
 SECRETARIA;c313e093-f257-4eb1-8a96-49fc51888d98;Secretaria Academica;secretaria;admin123;true;SEC001;
+ALUNO;4a148570-dcd6-4428-9f9e-bcb2d1527a65;sofia;sofia;123456;true;1234;809453
