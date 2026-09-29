@@ -47,4 +47,9 @@ public class Semestre {
     public void setPeriodoMatricula(PeriodoMatricula periodoMatricula) {
         this.periodoMatricula = periodoMatricula;
     }
+
+    @Override
+    public String toString() {
+        return ano + "/" + numero + " (" + status + ")";
+    }
 }

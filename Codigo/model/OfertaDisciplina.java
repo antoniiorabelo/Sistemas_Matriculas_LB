@@ -1,8 +1,7 @@
 package Codigo.model;
 
-import Codigo.enums.StatusOferta;
 import Codigo.Validacao;
-
+import Codigo.enums.StatusOferta;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,6 +72,14 @@ public class OfertaDisciplina {
         }
     }
 
+    public void liberarVaga() {
+        // Chamado apos um cancelamento dentro do periodo permitido (HU07):
+        // se a oferta estava sem vagas, reabre as inscricoes.
+        if (status == StatusOferta.SEM_VAGAS && possuiVaga()) {
+            abrirInscricoes();
+        }
+    }
+
     public List<Aluno> consultarAlunosMatriculados() {
         List<Aluno> alunos = new ArrayList<>();
         for (Matricula matricula : matriculas) {
@@ -105,5 +112,11 @@ public class OfertaDisciplina {
 
     public List<Matricula> getMatriculas() {
         return new ArrayList<>(matriculas);
+    }
+
+    @Override
+    public String toString() {
+        return disciplina.getNome() + " (Prof. " + professor.getNome() + ") - "
+                + consultarQuantidadeMatriculados() + "/" + capacidadeMaxima + " vagas - " + status;
     }
 }

@@ -1,9 +1,6 @@
 package Codigo.model;
 
-import Codigo.service.CurriculoService;
-
 public class Secretaria extends Usuario {
-
     private String registro;
 
     public Secretaria(String id, String nome, String login, String senha, String registro) {
@@ -21,10 +18,6 @@ public class Secretaria extends Usuario {
         if (periodo != null) {
             periodo.encerrar();
         }
-    }
-
-    public CurriculoSemestral gerarCurriculo(Curso curso, Semestre semestre) {
-        return new CurriculoService().criarCurriculo(curso, semestre);
     }
 
     public String getRegistro() {

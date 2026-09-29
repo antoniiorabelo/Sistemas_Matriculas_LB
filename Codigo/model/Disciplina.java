@@ -17,6 +17,10 @@ public class Disciplina {
         ativa = false;
     }
 
+    public void reativar() {
+        ativa = true;
+    }
+
     public String getCodigo() {
         return codigo;
     }
@@ -31,5 +35,23 @@ public class Disciplina {
 
     public boolean isAtiva() {
         return ativa;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Disciplina)) return false;
+        Disciplina that = (Disciplina) o;
+        return codigo != null && codigo.equals(that.codigo);
+    }
+
+    @Override
+    public int hashCode() {
+        return codigo == null ? 0 : codigo.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return codigo + " - " + nome + (ativa ? "" : " (inativa)");
     }
 }

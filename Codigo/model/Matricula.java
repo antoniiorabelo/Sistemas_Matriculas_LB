@@ -1,7 +1,6 @@
 package Codigo.model;
 
 import Codigo.enums.StatusMatricula;
-
 import java.time.LocalDateTime;
 
 public class Matricula {
@@ -52,5 +51,18 @@ public class Matricula {
 
     public StatusMatricula getStatus() {
         return status;
+    }
+
+    public LocalDateTime getDataMatricula() {
+        return dataMatricula;
+    }
+
+    public LocalDateTime getDataCancelamento() {
+        return dataCancelamento;
+    }
+
+    @Override
+    public String toString() {
+        return oferta.getDisciplina().getNome() + " - " + status;
     }
 }

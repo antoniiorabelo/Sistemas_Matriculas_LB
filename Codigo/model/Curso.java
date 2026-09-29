@@ -1,7 +1,6 @@
 package Codigo.model;
 
 import Codigo.enums.TipoDisciplina;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -36,6 +35,10 @@ public class Curso {
         ativo = false;
     }
 
+    public void reativar() {
+        ativo = true;
+    }
+
     public String getCodigo() {
         return codigo;
     }
@@ -54,5 +57,10 @@ public class Curso {
 
     public List<ComponenteCurricular> getComponentesCurriculares() {
         return new ArrayList<>(componentesCurriculares);
+    }
+
+    @Override
+    public String toString() {
+        return codigo + " - " + nome + (ativo ? "" : " (inativo)");
     }
 }

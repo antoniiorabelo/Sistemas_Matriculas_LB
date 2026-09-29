@@ -1,7 +1,6 @@
 package Codigo.model;
 
 import Codigo.enums.StatusPeriodo;
-
 import java.time.LocalDateTime;
 
 public class PeriodoMatricula {
@@ -40,5 +39,18 @@ public class PeriodoMatricula {
 
     public StatusPeriodo getStatus() {
         return status;
+    }
+
+    public LocalDateTime getDataInicio() {
+        return dataInicio;
+    }
+
+    public LocalDateTime getDataFim() {
+        return dataFim;
+    }
+
+    @Override
+    public String toString() {
+        return "Periodo[" + status + ", de " + dataInicio + " ate " + dataFim + "]";
     }
 }

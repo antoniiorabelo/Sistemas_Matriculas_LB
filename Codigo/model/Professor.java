@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Professor extends Usuario {
-
     private String registro;
     private final List<OfertaDisciplina> ofertas = new ArrayList<>();
 
@@ -21,7 +20,6 @@ public class Professor extends Usuario {
         if (oferta == null || !ofertas.contains(oferta)) {
             return new ArrayList<>();
         }
-
         return oferta.consultarAlunosMatriculados();
     }
 

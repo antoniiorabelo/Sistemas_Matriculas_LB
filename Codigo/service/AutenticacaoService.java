@@ -1,12 +1,24 @@
 package Codigo.service;
 
 import Codigo.model.Usuario;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class AutenticacaoService {
-    private final List<Usuario> usuarios = new ArrayList<>();
+    private final List<Usuario> usuarios;
+
+    public AutenticacaoService() {
+        this.usuarios = new ArrayList<>();
+    }
+
+    /**
+     * Permite que o servico compartilhe a mesma lista de usuarios do
+     * repositorio central, garantindo que todos os cadastros feitos pela
+     * secretaria fiquem visiveis para autenticacao.
+     */
+    public AutenticacaoService(List<Usuario> usuarios) {
+        this.usuarios = usuarios;
+    }
 
     public Usuario autenticar(String login, String senha) {
         for (Usuario usuario : usuarios) {
@@ -25,5 +37,9 @@ public class AutenticacaoService {
         if (usuario != null) {
             usuarios.add(usuario);
         }
+    }
+
+    public boolean existeLogin(String login) {
+        return usuarios.stream().anyMatch(u -> u.getLogin().equals(login));
     }
 }

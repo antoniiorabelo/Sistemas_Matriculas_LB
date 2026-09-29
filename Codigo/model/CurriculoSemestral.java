@@ -56,4 +56,9 @@ public class CurriculoSemestral {
     public List<OfertaDisciplina> getOfertas() {
         return new ArrayList<>(ofertas);
     }
+
+    @Override
+    public String toString() {
+        return "Curriculo[" + curso.getNome() + " - " + semestre + "]";
+    }
 }

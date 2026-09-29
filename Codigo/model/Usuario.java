@@ -3,7 +3,6 @@ package Codigo.model;
 import java.util.Objects;
 
 public abstract class Usuario {
-
     private String id;
     private String nome;
     private String login;
@@ -30,13 +29,16 @@ public abstract class Usuario {
                 || novaSenha.isBlank()) {
             return false;
         }
-
         this.senha = novaSenha;
         return true;
     }
 
     public void inativar() {
         this.ativo = false;
+    }
+
+    public void reativar() {
+        this.ativo = true;
     }
 
     public String getId() {
