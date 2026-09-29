@@ -26,7 +26,7 @@ public abstract class Usuario {
     public boolean alterarSenha(String senhaAtual, String novaSenha) {
         if (!Objects.equals(this.senha, senhaAtual)
                 || novaSenha == null
-                || novaSenha.isBlank()) {
+                || novaSenha.trim().isEmpty()) {
             return false;
         }
         this.senha = novaSenha;
@@ -51,6 +51,11 @@ public abstract class Usuario {
 
     public String getLogin() {
         return login;
+    }
+
+    /** Usado apenas pela camada de persistencia para gravar o usuario em arquivo. */
+    public String getSenha() {
+        return senha;
     }
 
     public boolean isAtivo() {

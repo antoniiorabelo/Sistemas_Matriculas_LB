@@ -21,6 +21,15 @@ public class NotificacaoCobranca {
         this.status = StatusNotificacao.PENDENTE;
     }
 
+    /** Usado pela persistencia para restaurar uma notificacao gravada em arquivo. */
+    public NotificacaoCobranca(String id, TipoOperacaoCobranca tipoOperacao, Aluno aluno, Semestre semestre,
+                               StatusNotificacao status, LocalDateTime dataEnvio, String mensagemErro) {
+        this(id, tipoOperacao, aluno, semestre);
+        this.status = status;
+        this.dataEnvio = dataEnvio;
+        this.mensagemErro = mensagemErro;
+    }
+
     public void marcarComoEnviada() {
         status = StatusNotificacao.ENVIADA;
         dataEnvio = LocalDateTime.now();
@@ -31,6 +40,10 @@ public class NotificacaoCobranca {
         status = StatusNotificacao.FALHA;
         dataEnvio = LocalDateTime.now();
         mensagemErro = mensagem;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public StatusNotificacao getStatus() {
@@ -47,6 +60,10 @@ public class NotificacaoCobranca {
 
     public Semestre getSemestre() {
         return semestre;
+    }
+
+    public LocalDateTime getDataEnvio() {
+        return dataEnvio;
     }
 
     public String getMensagemErro() {

@@ -7,8 +7,7 @@ import java.util.List;
 
 /**
  * Implementacao simulada do Sistema de Cobrancas (fora do escopo deste projeto).
- * Como o calculo e o recebimento do pagamento nao fazem parte do sistema,
- * esta classe apenas simula a integracao via console, sempre retornando sucesso.
+ * Apenas registra no console a notificacao enviada e retorna sucesso.
  */
 public class SistemaCobrancasGatewayImpl implements SistemaCobrancasGateway {
 

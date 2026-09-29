@@ -13,10 +13,15 @@ public class CurriculoSemestral {
     private final List<OfertaDisciplina> ofertas = new ArrayList<>();
 
     public CurriculoSemestral(String id, Curso curso, Semestre semestre) {
+        this(id, curso, semestre, LocalDate.now());
+    }
+
+    /** Usado pela persistencia para restaurar a data de criacao gravada em arquivo. */
+    public CurriculoSemestral(String id, Curso curso, Semestre semestre, LocalDate dataCriacao) {
         this.id = id;
         this.curso = curso;
         this.semestre = semestre;
-        this.dataCriacao = LocalDate.now();
+        this.dataCriacao = dataCriacao;
     }
 
     public void adicionarOferta(OfertaDisciplina oferta) {

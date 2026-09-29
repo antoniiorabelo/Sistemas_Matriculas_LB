@@ -4,7 +4,6 @@ import Codigo.enums.StatusOferta;
 import Codigo.model.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public class CurriculoService {
@@ -14,29 +13,28 @@ public class CurriculoService {
         this.curriculos = new ArrayList<>();
     }
 
-    /**
-     * Permite compartilhar a mesma lista de curriculos do repositorio central,
-     * necessaria para localizar a oferta correta de um aluno/professor
-     * e para avaliar todas as ofertas ao encerrar um periodo (HU09).
-     */
+    /** Compartilha a mesma lista de curriculos do repositorio central. */
     public CurriculoService(List<CurriculoSemestral> curriculos) {
         this.curriculos = curriculos;
     }
 
     public CurriculoSemestral criarCurriculo(Curso curso, Semestre semestre) {
-        Optional<CurriculoSemestral> existente = buscarCurriculo(curso, semestre);
-        if (existente.isPresent()) {
-            return existente.get();
+        CurriculoSemestral existente = buscarCurriculo(curso, semestre);
+        if (existente != null) {
+            return existente;
         }
         CurriculoSemestral curriculo = new CurriculoSemestral(UUID.randomUUID().toString(), curso, semestre);
         curriculos.add(curriculo);
         return curriculo;
     }
 
-    public Optional<CurriculoSemestral> buscarCurriculo(Curso curso, Semestre semestre) {
-        return curriculos.stream()
-                .filter(c -> c.getCurso() == curso && c.getSemestre() == semestre)
-                .findFirst();
+    public CurriculoSemestral buscarCurriculo(Curso curso, Semestre semestre) {
+        for (CurriculoSemestral c : curriculos) {
+            if (c.getCurso() == curso && c.getSemestre() == semestre) {
+                return c;
+            }
+        }
+        return null;
     }
 
     public List<CurriculoSemestral> listarCurriculosDoSemestre(Semestre semestre) {
@@ -49,10 +47,14 @@ public class CurriculoService {
         return resultado;
     }
 
+    /** HU03 - somente disciplinas ativas podem integrar o curriculo. */
     public OfertaDisciplina adicionarOferta(
             CurriculoSemestral curriculo,
             Disciplina disciplina,
             Professor professor) {
+        if (!disciplina.isAtiva()) {
+            throw new IllegalArgumentException("Somente disciplinas ativas podem integrar o curriculo.");
+        }
         OfertaDisciplina oferta = new OfertaDisciplina(
                 UUID.randomUUID().toString(), disciplina, professor, curriculo);
         oferta.abrirInscricoes();
@@ -61,17 +63,13 @@ public class CurriculoService {
         return oferta;
     }
 
-    /**
-     * HU05 - Consultar disciplinas ofertadas: retorna as ofertas do curriculo
-     * correspondente ao curso do aluno no semestre informado.
-     */
+    /** HU05 - ofertas do curriculo do curso do aluno no semestre informado. */
     public List<OfertaDisciplina> consultarOfertasDoAluno(Aluno aluno, Semestre semestre) {
         if (aluno == null || aluno.getCurso() == null || semestre == null) {
             return new ArrayList<>();
         }
-        return buscarCurriculo(aluno.getCurso(), semestre)
-                .map(CurriculoSemestral::getOfertas)
-                .orElse(new ArrayList<>());
+        CurriculoSemestral curriculo = buscarCurriculo(aluno.getCurso(), semestre);
+        return curriculo == null ? new ArrayList<OfertaDisciplina>() : curriculo.getOfertas();
     }
 
     public void encerrarPeriodo(Semestre semestre) {
@@ -80,11 +78,7 @@ public class CurriculoService {
         }
     }
 
-    /**
-     * HU09 - Avaliar a oferta ao encerrar o periodo: para cada curriculo do
-     * semestre, avalia todas as ofertas (confirma as com 3 a 60 alunos ativos
-     * e cancela as com menos de 3).
-     */
+    /** HU09 - confirma ofertas com 3 a 60 alunos ativos e cancela as com menos de 3. */
     public void avaliarOfertas(Semestre semestre) {
         for (CurriculoSemestral curriculo : listarCurriculosDoSemestre(semestre)) {
             for (OfertaDisciplina oferta : curriculo.getOfertas()) {

@@ -1,15 +1,2 @@
-Este arquivo e apenas um placeholder da estrutura original de pastas.
-
-A versao atual do sistema roda 100% via terminal e mantem os dados em
-memoria (Codigo.repository.Repositorio), sem gravar nada em disco.
-Por isso os dados cadastrados (cursos, disciplinas, professores, alunos,
-semestres, curriculos e matriculas) sao perdidos ao encerrar o programa.
-
-Ao iniciar a aplicacao, uma conta de secretaria padrao e criada
-automaticamente para permitir os primeiros cadastros:
-  login: secretaria
-  senha: admin123
-
-Se no futuro o grupo quiser persistir os dados entre execucoes, este
-arquivo (ou um arquivo/banco equivalente) pode ser usado para salvar e
-carregar a lista de usuarios no inicio/fim do programa.
+# tipo;id;nome;login;senha;ativo;registroOuMatricula;codigoCurso
+SECRETARIA;c313e093-f257-4eb1-8a96-49fc51888d98;Secretaria Academica;secretaria;admin123;true;SEC001;

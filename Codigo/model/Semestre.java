@@ -24,6 +24,11 @@ public class Semestre {
         status = StatusSemestre.ENCERRADO;
     }
 
+    /** Usado pela persistencia para restaurar o status gravado em arquivo. */
+    public void restaurarStatus(StatusSemestre status) {
+        this.status = status;
+    }
+
     public String getId() {
         return id;
     }

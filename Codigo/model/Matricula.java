@@ -17,6 +17,15 @@ public class Matricula {
         this.oferta = oferta;
     }
 
+    /** Usado pela persistencia para restaurar uma matricula gravada em arquivo. */
+    public Matricula(String id, Aluno aluno, OfertaDisciplina oferta, StatusMatricula status,
+                     LocalDateTime dataMatricula, LocalDateTime dataCancelamento) {
+        this(id, aluno, oferta);
+        this.status = status;
+        this.dataMatricula = dataMatricula;
+        this.dataCancelamento = dataCancelamento;
+    }
+
     public void confirmar() {
         status = StatusMatricula.CONFIRMADA;
         dataMatricula = LocalDateTime.now();

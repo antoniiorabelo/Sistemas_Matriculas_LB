@@ -11,11 +11,7 @@ public class AutenticacaoService {
         this.usuarios = new ArrayList<>();
     }
 
-    /**
-     * Permite que o servico compartilhe a mesma lista de usuarios do
-     * repositorio central, garantindo que todos os cadastros feitos pela
-     * secretaria fiquem visiveis para autenticacao.
-     */
+    /** Compartilha a mesma lista de usuarios do repositorio central. */
     public AutenticacaoService(List<Usuario> usuarios) {
         this.usuarios = usuarios;
     }
@@ -40,6 +36,11 @@ public class AutenticacaoService {
     }
 
     public boolean existeLogin(String login) {
-        return usuarios.stream().anyMatch(u -> u.getLogin().equals(login));
+        for (Usuario u : usuarios) {
+            if (u.getLogin().equals(login)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

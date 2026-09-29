@@ -20,7 +20,7 @@ public class Aluno extends Usuario {
 
     public List<OfertaDisciplina> consultarOfertas(Semestre semestre) {
         // A consulta real e feita via CurriculoService, que tem acesso
-        // ao repositorio de curriculos semestrais (ver Codigo.service.CurriculoService).
+        // aos curriculos semestrais (ver CurriculoService.consultarOfertasDoAluno).
         return new ArrayList<>();
     }
 
@@ -32,6 +32,10 @@ public class Aluno extends Usuario {
             }
         }
         return resultado;
+    }
+
+    public List<Matricula> getMatriculas() {
+        return new ArrayList<>(matriculas);
     }
 
     public void adicionarMatricula(Matricula matriculaRealizada) {

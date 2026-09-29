@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Repositorio em memoria compartilhado por todos os servicos.
- * Como o sistema roda apenas via terminal (sem persistencia em banco de dados
- * ou arquivo), os dados existem somente durante a execucao do programa.
+ * Repositorio central compartilhado por todos os servicos.
+ * Mantem os dados em memoria durante a execucao; a gravacao e a leitura
+ * dos arquivos .txt ficam a cargo de {@link PersistenciaArquivo}.
  */
 public class Repositorio {
     private final List<Usuario> usuarios = new ArrayList<>();
@@ -61,13 +61,11 @@ public class Repositorio {
         return professores;
     }
 
-    public List<Secretaria> getSecretarias() {
-        List<Secretaria> secretarias = new ArrayList<>();
-        for (Usuario u : usuarios) {
-            if (u instanceof Secretaria) {
-                secretarias.add((Secretaria) u);
-            }
+    public List<OfertaDisciplina> getOfertas() {
+        List<OfertaDisciplina> ofertas = new ArrayList<>();
+        for (CurriculoSemestral c : curriculos) {
+            ofertas.addAll(c.getOfertas());
         }
-        return secretarias;
+        return ofertas;
     }
 }

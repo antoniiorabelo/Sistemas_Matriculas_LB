@@ -1,0 +1,1 @@
+# id;idAluno;idOferta;status;dataMatricula;dataCancelamento

@@ -27,7 +27,13 @@ public class OfertaDisciplina {
     }
 
     public int consultarQuantidadeMatriculados() {
-        return (int) matriculas.stream().filter(Matricula::estaAtiva).count();
+        int total = 0;
+        for (Matricula matricula : matriculas) {
+            if (matricula.estaAtiva()) {
+                total++;
+            }
+        }
+        return total;
     }
 
     public int consultarVagasDisponiveis() {
@@ -63,12 +69,27 @@ public class OfertaDisciplina {
         status = StatusOferta.INSCRICOES_ABERTAS;
     }
 
+    /** Usado pela persistencia para restaurar o status gravado em arquivo. */
+    public void restaurarStatus(StatusOferta status) {
+        this.status = status;
+    }
+
     public void adicionarMatricula(Matricula matricula) {
         if (matricula != null && possuiVaga()) {
             matriculas.add(matricula);
             if (!possuiVaga()) {
                 encerrarInscricoes();
             }
+        }
+    }
+
+    /**
+     * Usado pela persistencia: adiciona uma matricula ja existente (ativa ou
+     * cancelada) sem aplicar regras de vaga nem alterar o status da oferta.
+     */
+    public void restaurarMatricula(Matricula matricula) {
+        if (matricula != null && !matriculas.contains(matricula)) {
+            matriculas.add(matricula);
         }
     }
 
@@ -117,6 +138,6 @@ public class OfertaDisciplina {
     @Override
     public String toString() {
         return disciplina.getNome() + " (Prof. " + professor.getNome() + ") - "
-                + consultarQuantidadeMatriculados() + "/" + capacidadeMaxima + " vagas - " + status;
+                + consultarQuantidadeMatriculados() + "/" + capacidadeMaxima + " alunos - " + status;
     }
 }

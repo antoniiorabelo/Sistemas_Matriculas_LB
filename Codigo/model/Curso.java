@@ -26,6 +26,13 @@ public class Curso {
         }
     }
 
+    /** Usado pela persistencia para restaurar o componente com o mesmo id gravado. */
+    public void adicionarComponente(ComponenteCurricular componente) {
+        if (componente != null) {
+            componentesCurriculares.add(componente);
+        }
+    }
+
     public void removerDisciplina(Disciplina disciplina) {
         componentesCurriculares.removeIf(
                 componente -> componente.getDisciplina().equals(disciplina));

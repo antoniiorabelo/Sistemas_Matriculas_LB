@@ -1,2 +1,16 @@
-tmp/
+# Arquivos compilados
 *.class
+out/
+sources.txt
+
+# Arquivos temporarios da persistencia
+Codigo/data/*.tmp
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# Sistema operacional
+.DS_Store
+Thumbs.db

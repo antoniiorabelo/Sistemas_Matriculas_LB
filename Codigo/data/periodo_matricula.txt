@@ -1,0 +1,1 @@
+# id;idSemestre;dataInicio;dataFim;status

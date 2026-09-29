@@ -1,0 +1,1 @@
+# id;tipoOperacao;idAluno;idSemestre;status;dataEnvio;mensagemErro

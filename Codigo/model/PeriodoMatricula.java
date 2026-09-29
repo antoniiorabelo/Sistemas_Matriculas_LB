@@ -24,6 +24,11 @@ public class PeriodoMatricula {
         status = StatusPeriodo.ENCERRADO;
     }
 
+    /** Usado pela persistencia para restaurar o status gravado em arquivo. */
+    public void restaurarStatus(StatusPeriodo status) {
+        this.status = status;
+    }
+
     public boolean estaAberto() {
         return status == StatusPeriodo.ABERTO && validarDataAtual();
     }

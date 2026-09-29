@@ -4,11 +4,10 @@ import Codigo.enums.TipoDisciplina;
 import Codigo.model.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
- * Implementa a HU02 - Manter dados academicos: cadastrar, consultar,
- * alterar e inativar cursos, disciplinas, professores e alunos.
+ * HU02 - Manter dados academicos: cadastrar, consultar e inativar
+ * cursos, disciplinas, professores e alunos.
  */
 public class CadastroService {
     private final List<Curso> cursos;
@@ -17,7 +16,7 @@ public class CadastroService {
     private final AutenticacaoService autenticacaoService;
 
     public CadastroService(List<Curso> cursos, List<Disciplina> disciplinas,
-                            List<Usuario> usuarios, AutenticacaoService autenticacaoService) {
+                           List<Usuario> usuarios, AutenticacaoService autenticacaoService) {
         this.cursos = cursos;
         this.disciplinas = disciplinas;
         this.usuarios = usuarios;
@@ -26,10 +25,10 @@ public class CadastroService {
 
     // ---------- Curso ----------
     public Curso cadastrarCurso(String codigo, String nome, int numeroCreditos) {
-        if (codigo == null || codigo.isBlank() || nome == null || nome.isBlank()) {
+        if (vazio(codigo) || vazio(nome)) {
             throw new IllegalArgumentException("Codigo e nome do curso sao obrigatorios.");
         }
-        if (buscarCurso(codigo).isPresent()) {
+        if (buscarCurso(codigo) != null) {
             throw new IllegalArgumentException("Ja existe um curso com o codigo " + codigo + ".");
         }
         Curso curso = new Curso(codigo, nome, numeroCreditos);
@@ -37,8 +36,13 @@ public class CadastroService {
         return curso;
     }
 
-    public Optional<Curso> buscarCurso(String codigo) {
-        return cursos.stream().filter(c -> c.getCodigo().equalsIgnoreCase(codigo)).findFirst();
+    public Curso buscarCurso(String codigo) {
+        for (Curso c : cursos) {
+            if (c.getCodigo().equalsIgnoreCase(codigo)) {
+                return c;
+            }
+        }
+        return null;
     }
 
     public List<Curso> listarCursos() {
@@ -48,6 +52,11 @@ public class CadastroService {
     public void associarDisciplinaAoCurso(Curso curso, Disciplina disciplina, TipoDisciplina tipo) {
         if (curso == null || disciplina == null || tipo == null) {
             throw new IllegalArgumentException("Curso, disciplina e tipo sao obrigatorios.");
+        }
+        for (ComponenteCurricular c : curso.getComponentesCurriculares()) {
+            if (c.getDisciplina().equals(disciplina)) {
+                throw new IllegalArgumentException("Esta disciplina ja esta associada ao curso.");
+            }
         }
         curso.adicionarDisciplina(disciplina, tipo);
     }
@@ -60,10 +69,10 @@ public class CadastroService {
 
     // ---------- Disciplina ----------
     public Disciplina cadastrarDisciplina(String codigo, String nome, int numeroCreditos) {
-        if (codigo == null || codigo.isBlank() || nome == null || nome.isBlank()) {
+        if (vazio(codigo) || vazio(nome)) {
             throw new IllegalArgumentException("Codigo e nome da disciplina sao obrigatorios.");
         }
-        if (buscarDisciplina(codigo).isPresent()) {
+        if (buscarDisciplina(codigo) != null) {
             throw new IllegalArgumentException("Ja existe uma disciplina com o codigo " + codigo + ".");
         }
         Disciplina disciplina = new Disciplina(codigo, nome, numeroCreditos);
@@ -71,8 +80,13 @@ public class CadastroService {
         return disciplina;
     }
 
-    public Optional<Disciplina> buscarDisciplina(String codigo) {
-        return disciplinas.stream().filter(d -> d.getCodigo().equalsIgnoreCase(codigo)).findFirst();
+    public Disciplina buscarDisciplina(String codigo) {
+        for (Disciplina d : disciplinas) {
+            if (d.getCodigo().equalsIgnoreCase(codigo)) {
+                return d;
+            }
+        }
+        return null;
     }
 
     public List<Disciplina> listarDisciplinas() {
@@ -87,7 +101,7 @@ public class CadastroService {
 
     // ---------- Professor ----------
     public Professor cadastrarProfessor(String id, String nome, String login, String senha, String registro) {
-        validarNovoLogin(login);
+        validarNovoUsuario(nome, login, senha);
         Professor professor = new Professor(id, nome, login, senha, registro);
         usuarios.add(professor);
         return professor;
@@ -105,7 +119,7 @@ public class CadastroService {
 
     // ---------- Aluno ----------
     public Aluno cadastrarAluno(String id, String nome, String login, String senha, String matricula, Curso curso) {
-        validarNovoLogin(login);
+        validarNovoUsuario(nome, login, senha);
         Aluno aluno = new Aluno(id, nome, login, senha, matricula, curso);
         usuarios.add(aluno);
         return aluno;
@@ -121,18 +135,31 @@ public class CadastroService {
         return alunos;
     }
 
+    public Usuario buscarUsuarioPorLogin(String login) {
+        for (Usuario u : usuarios) {
+            if (u.getLogin().equals(login)) {
+                return u;
+            }
+        }
+        return null;
+    }
+
     public void inativarUsuario(Usuario usuario) {
         if (usuario != null) {
             usuario.inativar();
         }
     }
 
-    private void validarNovoLogin(String login) {
-        if (login == null || login.isBlank()) {
-            throw new IllegalArgumentException("Login e obrigatorio.");
+    private void validarNovoUsuario(String nome, String login, String senha) {
+        if (vazio(nome) || vazio(login) || vazio(senha)) {
+            throw new IllegalArgumentException("Nome, login e senha sao obrigatorios.");
         }
         if (autenticacaoService.existeLogin(login)) {
             throw new IllegalArgumentException("Ja existe um usuario com o login " + login + ".");
         }
+    }
+
+    private static boolean vazio(String valor) {
+        return valor == null || valor.trim().isEmpty();
     }
 }
